@@ -12,15 +12,14 @@
     }
 
     if($_SERVER["REQUEST_METHOD"] == "GET") {
-        $sql = "SELECT locationdetail.gu, COUNT(hospital.locationId)
+        $sql = "SELECT locationdetail.gu, COUNT(hospital.locationId) AS cnt
                     FROM hospital
                              JOIN locationdetail
                                   ON locationdetail.id = hospital.locationId
                              JOIN location
                                   ON locationdetail.locationId = location.id
                     
-                    GROUP BY locationdetail.gu
-                    ORDER BY locationdetail.gu";
+                    GROUP BY locationdetail.gu WITH ROLLUP";
         $res = mysqli_query($mysqli, $sql);
         $data = [];
 
@@ -29,6 +28,8 @@
             array_push($data, $row);
 
         }
+
+//        var_dump($data);
 
     }
 ?>
