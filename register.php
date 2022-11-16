@@ -8,61 +8,61 @@
         if (empty(trim($_POST["reg_email"])) || empty(trim($_POST["reg_nickname"])) || empty(trim($_POST["reg_password"])) || empty(trim($_POST["reg_age"])) || empty(trim($_POST["reg_location"])) || empty(trim($_POST["reg_sex"]))) {
             echo '<script>alert("Form needs to be completely filled out")</script>';
         } else {
-            $reg_email = isset($_POST['reg_email']) ? $_POST['reg_email'] : null;
-            $reg_nickname = isset($_POST['reg_nickname']) ? $_POST['reg_nickname'] : null;
-            $reg_password = isset($_POST['reg_password']) ? $_POST['reg_password'] : null;
-            $reg_age = isset($_POST['reg_age']) ? $_POST['reg_age'] : null;
-            $reg_location = isset($_POST['reg_location']) ? $_POST['reg_location'] : null;
+            try {
+                mysqli_begin_transaction($mysqli);
+                $reg_email = isset($_POST['reg_email']) ? $_POST['reg_email'] : null;
+                $reg_nickname = isset($_POST['reg_nickname']) ? $_POST['reg_nickname'] : null;
+                $reg_password = isset($_POST['reg_password']) ? $_POST['reg_password'] : null;
+                $reg_age = isset($_POST['reg_age']) ? $_POST['reg_age'] : null;
+                $reg_location = isset($_POST['reg_location']) ? $_POST['reg_location'] : null;
 
-            if ($_POST['reg_sex'] == 'female') {
-                $reg_sex = 1;
-            } else {
-                $reg_sex = 2;
-            }
-
-            $sql = "SELECT email FROM user WHERE email = '$reg_email'";
-            $res = mysqli_query($mysqli, $sql);
-            if ($res) {
-                if (mysqli_num_rows($res)!=0) {
-                    echo '<script>alert("User already exists with same email")</script>';
+                if ($_POST['reg_sex'] == 'female') {
+                    $reg_sex = 1;
+                } else {
+                    $reg_sex = 2;
                 }
-                else {
-                    $data = json_decode(getAddress($reg_location), true);
 
-                    $sql = "SELECT locationId FROM locationdetail WHERE addr='$reg_location'";
-                    $duplicateCheck = mysqli_query($mysqli, $sql);
+                $sql = "SELECT email FROM user WHERE email = '$reg_email'";
+                $res = mysqli_query($mysqli, $sql);
+                if ($res) {
+                    if (mysqli_num_rows($res) != 0) {
+                        echo '<script>alert("User already exists with same email")</script>';
+                    } else {
+                        $data = json_decode(getAddress($reg_location), true);
 
-                    if (mysqli_num_rows($duplicateCheck)!=0) {
-                        $row = mysqli_fetch_assoc($duplicateCheck);
-                        var_dump($row);
-                        $row = $row['locationId'];
-                    }
-                    else {
-                        $locationInsert = "INSERT INTO location (x, y) VALUES(
+                        $sql = "SELECT locationId FROM locationdetail WHERE addr='$reg_location'";
+                        $duplicateCheck = mysqli_query($mysqli, $sql);
+
+                        if (mysqli_num_rows($duplicateCheck) != 0) {
+                            $row = mysqli_fetch_assoc($duplicateCheck);
+                            var_dump($row);
+                            $row = $row['locationId'];
+                        } else {
+                            $locationInsert = "INSERT INTO location (x, y) VALUES(
                                                 round({$data["documents"][0]['x']}, 3), 
                                                 round({$data["documents"][0]['y']}, 3)
                                             )";
-                        $locationRes = mysqli_query($mysqli, $locationInsert);
+                            $locationRes = mysqli_query($mysqli, $locationInsert);
 
-                        $location = "SELECT id FROM location 
+                            $location = "SELECT id FROM location 
                                         WHERE ABS(x-{$data["documents"][0]['x']})<=1E-3 
                                           AND ABS(y-{$data["documents"][0]['y']})<=1E-3";
-                        $locationRes = mysqli_query($mysqli, $location);
-                        $row = mysqli_fetch_assoc($locationRes);
-                        $row = $row['id'];
+                            $locationRes = mysqli_query($mysqli, $location);
+                            $row = mysqli_fetch_assoc($locationRes);
+                            $row = $row['id'];
 
-                        $locationDetailSql = "INSERT INTO locationDetail (locationId, addr, si, gu) VALUES (
+                            $locationDetailSql = "INSERT INTO locationDetail (locationId, addr, si, gu) VALUES (
                                                               '$row', 
                                                               '$reg_location', 
-                                                              '".$data["documents"][0]["address"]["region_1depth_name"]."', 
-                                                              '".$data["documents"][0]["address"]["region_2depth_name"]."'
+                                                              '" . $data["documents"][0]["address"]["region_1depth_name"] . "', 
+                                                              '" . $data["documents"][0]["address"]["region_2depth_name"] . "'
                                                               )";
-                        $locationDetailRes = mysqli_query($mysqli, $locationDetailSql);
-                    }
+                            $locationDetailRes = mysqli_query($mysqli, $locationDetailSql);
+                        }
 
-                    $bcrypt_pw = password_hash($reg_password, PASSWORD_BCRYPT);
+                        $bcrypt_pw = password_hash($reg_password, PASSWORD_BCRYPT);
 
-                    $sql = "INSERT INTO user (locationId, sexId, email, nickname, password, age)
+                        $sql = "INSERT INTO user (locationId, sexId, email, nickname, password, age)
                                         VALUES('$row',
                                                '$reg_sex',
                                                '$reg_email',
@@ -70,13 +70,18 @@
                                                '$bcrypt_pw', 
                                                '$reg_age'
                                         )";
-                    $res = mysqli_query($mysqli,$sql);
+                        $res = mysqli_query($mysqli, $sql);
 
-                    header("Location: login.php");
+                        mysqli_commit($mysqli);
+
+                        header("Location: login.php");
+                    }
+                } else {
+                    echo 'Error occured';
                 }
             }
-            else {
-                echo 'Error occured';
+            catch (Exception $e){
+                mysqli_rollback($mysqli);
             }
         }
         mysqli_close($mysqli);
