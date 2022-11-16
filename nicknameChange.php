@@ -51,7 +51,7 @@
         <form action="nicknameChange.php" method="post">
 
             <input type="input" class='nickname' id='nickname' name='nickname' maxlength=20
-                   new_nicknameue='<?php
+                   value='<?php
                    echo $crt_nickname;?>'>
 
             <input type="submit" id=rep_bt class=re_bt new_nicknameue="modify">
