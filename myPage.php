@@ -56,7 +56,7 @@
                             for($i=0; $i<count($dibsList); $i=$i+1){
                                 $id = $dibsList[$i]["id"];
                                 $name = $dibsList[$i]["name"];
-                                $url = "hospitalInfo.php?id=".urlencode($id);
+                                $url = "hospital.php?id=".urlencode($id);
                                 echo "<li><a href='$url'>hospital</a></li>";
                             }
                         ?>
