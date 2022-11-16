@@ -48,6 +48,7 @@
 
                     <a href="nicknameChange.php"> Nickname Modify</a>
                     <a href="pwChange.php"> PW Modify</a>
+                    <a href="myReview.php">My Review</a>
                     <a href="resign.php">Resign</a>
                 </div>
                 <div class="box" style="float:right;">
