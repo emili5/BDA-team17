@@ -32,7 +32,7 @@
 				AS rank, name, cleanlinessAvg
 			FROM Hospital
 			LIMIT 5";
-
+	$res = mysqli_query($mysqli, $sql);
 	while ($row = mysqli_fetch_assoc($res)) {
 
 		array_push($cleanlinessAvgHosp);
@@ -43,6 +43,6 @@
 //	var_dump($speedAvgHosp);
 //	var_dump($cleanlinessAvgHosp);
 
-	mysqli_close($mysqli);
+//	mysqli_close($mysqli);
 ?>
 
