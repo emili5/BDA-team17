@@ -41,10 +41,10 @@ CREATE TABLE User (
     sexId INT NOT NULL,
 
     FOREIGN KEY (locationId) REFERENCES Location(id),
-    FOREIGN KEY (sexId) REFERENCES Sex(id),
-
-    UNIQUE KEY unique_name (email, nickname)
+    FOREIGN KEY (sexId) REFERENCES Sex(id)
 );
+
+CREATE UNIQUE INDEX user_email_uq ON User(email);
 
 CREATE TABLE Hospital (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
