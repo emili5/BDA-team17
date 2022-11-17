@@ -68,22 +68,34 @@
                 ?>
             </span>
         </div>
-<!--        <select>-->
-<!--            --><?php
-//                for($i=0; $i<count($categoryInfo); $i=$i+1){
-//                    echo "<option value=".$categoryInfo[$i]["name"].">".$categoryInfo[$i]["name"]."</option>";
-//                    $crt_category = $categoryInfo[$i]["name"];
-//                }
-//            ?>
-<!--        </select>-->
-<!--        <select>-->
-<!--            --><?php
-//                for($i=0; $i<count($vaccineInfo); $i=$i+1){
-//                    if ($vaccineInfo[$i]["category"]==$crt_category){
-//                        echo "<option value=".$vaccineInfo[$i]["vaccine"].">".$vaccineInfo[$i]["vaccine"]."</option>";
-//                    }
-//                }
-//            ?>
-<!--        </select>-->
+        <div>
+            <form method="GET" action="searchResult.php">
+                <select>
+<!--                    --><?php
+//                        for($i=0; $i<count($categoryInfo); $i=$i+1){
+//                            echo "<option value=".$categoryInfo[$i]["name"].">".$categoryInfo[$i]["name"]."</option>";
+//                            $crt_category = $categoryInfo[$i]["name"];
+//                        }
+//                    ?>
+                </select>
+                <select>
+<!--                    --><?php
+//                        for($i=0; $i<count($vaccineInfo); $i=$i+1){
+//                            if ($vaccineInfo[$i]["category"]==$crt_category){
+//                                echo "<option value=".$vaccineInfo[$i]["vaccine"].">".$vaccineInfo[$i]["vaccine"]."</option>";
+//                            }
+//                        }
+//                    ?>
+                </select>
+
+                <div>
+                    <?php
+                        $id = 1;
+                        $url = "searchResult.php?id=".urlencode($id);
+                        echo "<a href='$url'>Start</a>";
+                    ?>
+                </div>
+            </form>
+        </div>
     </body>
 </html>
