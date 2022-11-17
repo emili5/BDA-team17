@@ -1,0 +1,12 @@
+DROP TABLE Likes;
+DROP TABLE Rate;
+DROP TABLE Review;
+DROP TABLE Price;
+DROP TABLE Vaccine;
+DROP TABLE Category;
+DROP TABLE Dibs;
+DROP TABLE Hospital;
+DROP TABLE User;
+DROP TABLE LocationDetail;
+DROP TABLE Location;
+DROP TABLE Sex;

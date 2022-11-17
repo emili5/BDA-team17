@@ -1,25 +1,3 @@
--- 'Sex' Table Initialization
-INSERT INTO Sex(type) VALUES('female')
-INSERT INTO Sex(type) VALUES('male')
-
--- 'Category' Table Initialization
-INSERT INTO Category(name) VALUES('대상포진');
-INSERT INTO Category(name) VALUES('사람유두종바이러스 감염증 (자궁경부암)');
-INSERT INTO Category(name) VALUES('수막구균');
-INSERT INTO Category(name) VALUES('신증후군출혈열 (한타 바이러스)');
-INSERT INTO Category(name) VALUES('수두');
-INSERT INTO Category(name) VALUES('로타바이러스');
-INSERT INTO Category(name) VALUES('일본뇌염');
-INSERT INTO Category(name) VALUES('장티푸스');
-INSERT INTO Category(name) VALUES('파상풍+디프테리아');
-INSERT INTO Category(name) VALUES('파상풍+디프테리아+백일해');
-INSERT INTO Category(name) VALUES('폐렴구균 (폐렴)');
-INSERT INTO Category(name) VALUES('홍역+유행성이하선염+풍진 (풍진, 볼거리, 홍역');
-INSERT INTO Category(name) VALUES('A형간염_소아용/성인용');
-INSERT INTO Category(name) VALUES('B형간염_소아용/성인용');
-INSERT INTO Category(name) VALUES('b형헤모필루스인풀루엔자 (뇌수막염)');
-
--- 'Vaccine' Table Initialization
 INSERT INTO Vaccine(name, CategoryId) VALUES('대상포진 예방접종 (스카이조스터주)', 1);
 INSERT INTO Vaccine(name, CategoryId) VALUES('대상포진 예방접종 (조스타박스주)', 1);
 
@@ -86,6 +64,3 @@ INSERT INTO Vaccine(name, CategoryId) VALUES('B형간염 예방접종_성인용 
 INSERT INTO Vaccine(name, CategoryId) VALUES('B형간염 예방접종_성인용 (유박스비프리필드주 0.5mL)', 14);
 
 INSERT INTO Vaccine(name, CategoryId) VALUES('뇌수막염 예방접종 (유히브주)', 15);
--- 'Hospital' Table Initialization
-
--- 'Price' Table Initialization
