@@ -1,10 +1,15 @@
 <?php
+    header('Content-Type: text/html; charset=utf-8');
     require_once "component/header.php";
     require_once "userInfo.php";
 
     if(isset($_SESSION["userID"]) == false){
-        header("Location: home.php");
+        header("Location: login.php");
         exit();
+    }
+    else{
+    $userId=$_SESSION['userID'];
+
     }
 
 ?>
@@ -23,9 +28,9 @@
         </div>
         <div class="content">
             <div class="centered">
-                <div class="box" style="float:left;">
+                <div class="box" style="float: left; margin-right:50%;">
                     <div>
-                        <span><?php echo $userInfo["nickname"];?></span>
+                        <h1><?php echo $userInfo["nickname"];?></h1>
                     </div>
 
                     <div>
@@ -37,31 +42,36 @@
                         <span><?php echo $userInfo["type"];?></span>
                     </div>
 
+                    <br>
                     <form method="POST" action="register.php">
-
-                        <span>Location</span>
-                        <div>
-                            <input type="text" name="location" id="address_kakao" value="<?php echo $userInfo["addr"]?>" readonly />
-                        </div>
-                        <input type="submit" />
+                        <span><b>Location</b></span>
+                        <input type="text" name="location" id="address_kakao" value="<?php echo $userInfo["addr"]?>" readonly style="padding-top:10px"/>
+                        <input type="submit" value="MODIFY"/>
                     </form>
 
-                    <a href="nicknameChange.php"> Nickname Modify</a>
+                    <br>
+                    <br>
+
+                    <form action="nicknameChange.php" method="post">
+                    <?php
+                        $url="nicknameChange.php?id=".urlencode($userId);
+                        echo "<a href='$url'> Nickname Modify</a>";
+                    ?>
+                    </form>
                     <a href="pwChange.php"> PW Modify</a>
                     <a href="myReview.php">My Review</a>
                     <a href="resign.php">Resign</a>
                 </div>
-                <div class="box" style="float:right;">
-                    <ul class="dibs">
+                <div class="box" style="float: right; margin-left:50%;">
+                    <h2>Dibs List</h2>
                         <?php
                             for($i=0; $i<count($dibsList); $i=$i+1){
                                 $id = $dibsList[$i]["id"];
                                 $name = $dibsList[$i]["name"];
                                 $url = "hospital.php?id=".urlencode($id);
-                                echo "<li><a href='$url'>hospital</a></li>";
+                                echo "<span><a href='$url'>".$name."</a></span>";
                             }
                         ?>
-                    </ul>
                 </div>
             </div>
         </div>
