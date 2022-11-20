@@ -1,12 +1,15 @@
 <?php
     require_once "config.php";
+    require_once "component/header.php";
+    require_once "userInfo.php";
 
     if(isset($_SESSION["userID"]) == false){
         header("Location: home.php");
         exit();
     }
     else {
-        $userID = $_SESSION["userID"];
+        $userID = $_GET['id'];
+        //echo $userID;
     }
 
     $sql = "SELECT nickname FROM user WHERE id='$userID'";
@@ -31,6 +34,9 @@
                     echo "<script>alert('Nickname modification Failed');</script>";
 
                 }
+
+                header("Location: myPage.php");
+                exit();
             }
 
 //            echo "<script>opener.location.reload();window.close();</script>";
@@ -45,16 +51,22 @@
 <meta charset="UTF-8"/>
 <html>
     <head>
-
+<link href="style/background.css?after" rel="stylesheet" type="text/css" />
+        <link href="style/style.css?after" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <form action="nicknameChange.php" method="post">
+           <?php
+                $id = $_GET["id"];
+           // echo $id;
+                $url = "nicknameChange.php?id=".urlencode($id);
+                echo '<form action='.$url.' method="POST">'
+            ?>
 
             <input type="input" class='nickname' id='nickname' name='nickname' maxlength=20
                    value='<?php
                    echo $crt_nickname;?>'>
 
-            <input type="submit" id=rep_bt class=re_bt new_nicknameue="modify">
+            <input type="submit" id=rep_bt class=re_bt new_nickname="modify" value='수정'>
         </form>
     </body>
 </html>
